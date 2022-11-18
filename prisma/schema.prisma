@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Funcionario {
+  cpf String @id
+  nome String
+  endereco String
+  salario Decimal
+  senha String
+  clientes ClienteFuncionario[]
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
+
+  @@map("funcionario")
+}
+
+model ClienteFuncionario {
+  funcionario Funcionario @relation(fields: [idFuncionario], references: [cpf])
+  idFuncionario String
+  cliente Cliente @relation(fields: [idCliente], references: [id])
+  idCliente Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([idFuncionario, idCliente])
+}
+
+model Cliente {
+  id Int @id @default(autoincrement())
+  funcionarios ClienteFuncionario[]
+  pessoa_fisica PessoaFisica[]
+  pessoa_juridica PessoaJuridica[]
+  pagamento Pagamento[]
+
+  @@map("cliente")
+}
+
+model PessoaFisica {
+  cpf String @id
+  nome String
+  endereco String
+  contato String
+  cliente Cliente @relation(fields: [idClient], references: [id])
+  idClient Int
+
+  @@map("pessoa_fisica")
+}
+
+model PessoaJuridica {
+  cnpj String @id
+  nome_fantasia String
+  endereco String
+  razao_social String
+  cliente Cliente @relation(fields: [idClient], references: [id])
+  idClient Int
+
+  @@map("pessoa_juridica")
+}
+
+model Empresa {
+  cnpj String @id
+  nome_fantasia String
+  insc_social String @unique
+  razao_social String
+  funcionarios Funcionario[]
+  fornecedores Fornecedor[]
+  caixas Caixa[]
+  estoques Estoque[]
+
+  @@map("empresa")
+}
+
+model Produto {
+  id Int @id @default(autoincrement())
+  nome String
+  marca String
+  modelo String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  estoques ProdutosEmEstoque[]
+  vendas Venda[]
+  @@map("produtos")
+}
+
+model Caixa {
+  id Int @id @default(autoincrement())
+  data DateTime @default(now())
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
+  pagamentos Pagamento[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+
+  @@map("caixa")
+}
+
+model Fornecedor {
+  cnpj String @id
+  razao_social String
+  nome_fantasia String
+  endereco String
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
+}
+
+model Estoque {
+  id Int @id @default(autoincrement())
+  nome String
+  produtos ProdutosEmEstoque[]
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
+}
+
+model ProdutosEmEstoque {
+  produto Produto @relation(fields: [idProduto], references: [id])
+  idProduto Int
+  estoque Estoque @relation(fields: [idEstoque], references: [id])
+  idEstoque Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([idProduto, idEstoque])
+}
+
+model Venda {
+  numero Int @id @default(autoincrement())
+  valor Decimal
+  nome_cliente String
+  produtos Produto @relation(fields: [idProduto], references: [id])
+  idProduto Int
+}
+
+model Pagamento {
+  id Int @id @default(autoincrement())
+  valor_pagamento Decimal
+  tipo String
+  cliente Cliente @relation(fields: [idCliente], references: [id])
+  idCliente Int
+  caixa Caixa @relation(fields: [idCaixa], references: [id])
+  idCaixa Int
+
+  @@map("pagamento")
+}
+
+
+
