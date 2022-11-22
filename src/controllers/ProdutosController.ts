@@ -18,5 +18,5 @@ export const criarProdutos = async (request: Request, response: Response) => {
       imageURL: imageURL,
     }
   });
-  return response.status(201).json(produto);
+  return response.status(201).send('Produto criado com sucesso');
 }
