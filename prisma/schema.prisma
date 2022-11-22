@@ -83,6 +83,7 @@ model Produto {
   id Int @id @default(autoincrement())
   nome String
   marca String
+  price Decimal
   modelo String
   imageURL String
   created_at DateTime @default(now())
