@@ -84,6 +84,7 @@ model Produto {
   nome String
   marca String
   modelo String
+  imageURL String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   estoques ProdutosEmEstoque[]

@@ -16,5 +16,4 @@ export const loginController = async (request: Request, response: Response) => {
   } else {
     return response.status(401).json('Login ou senha inválidos')
   }
-
 }
