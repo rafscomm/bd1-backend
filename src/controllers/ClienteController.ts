@@ -2,7 +2,12 @@ import { Request, Response } from "express";
 import { prisma } from '../prisma/client';
 
 export const clienteController = async (request: Request, response: Response) => {
-  const clientes = await prisma.cliente.findMany();
+  const clientes = await prisma.cliente.findMany({
+    include: {
+      pessoa_fisica: true,
+      pessoa_juridica: true
+    }
+  });
   return response.status(201).json(clientes);
 }
 
