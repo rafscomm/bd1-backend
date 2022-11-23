@@ -22,10 +22,11 @@ export const criarProdutos = async (request: Request, response: Response) => {
 }
 
 export const deletarProdutos = async (request: Request, response: Response) => {
-  const {id} = request.params;
+  const {id} = request.body;
   await prisma.produto.delete({
     where: {
       id: Number(id)
+
     }
   });
   return response.status(201).send('Deletado');

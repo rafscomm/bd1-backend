@@ -1,12 +1,12 @@
 import {Request, Response} from "express"
 import {prisma} from '../prisma/client';
 
-export const fornecedoresController = async (request: Request, response: Response) => {
+export const fornecedoreController = async (request: Request, response: Response) => {
   const fornecedores = await prisma.fornecedor.findMany();
   return response.status(201).json(fornecedores);
 }
 
-export const criarFornecedore = async (request: Request, response: Response) => {
+export const criarFornecedor = async (request: Request, response: Response) => {
   const {cnpj, endereco, nome_fantasia, razao_social, empresa, idEmpresa} = request.body;
 
   await prisma.fornecedor.create({
