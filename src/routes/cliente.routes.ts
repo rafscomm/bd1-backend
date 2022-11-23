@@ -4,6 +4,6 @@ import { clienteController, criarCliente } from '../controllers/ClienteControlle
 const clienteRoutes = Router();
 
 clienteRoutes.get("/", clienteController);
-clienteRoutes.get("/criar", criarCliente);
+clienteRoutes.post("/criar", criarCliente);
 
 export { clienteRoutes}

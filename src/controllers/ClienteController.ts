@@ -13,8 +13,7 @@ export const clienteController = async (request: Request, response: Response) =>
 
 export const criarCliente = async (request: Request, response: Response) => {
   const {cpf, nome, contato, endereco, idEmpresa} = request.body;
-
-  await prisma.cliente.create({
+  const create = await prisma.cliente.create({
     data: {
       idEmpresa: idEmpresa,
       pessoa_fisica: {
@@ -25,8 +24,7 @@ export const criarCliente = async (request: Request, response: Response) => {
           endereco: endereco,
         }
       }
-
     }
   });
-  return response.status(201).send('Cliente criado com sucesso');
+  return response.status(201).send(`Sucesso ${create}`);
 }

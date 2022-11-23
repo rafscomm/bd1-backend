@@ -37,7 +37,7 @@ model ClienteFuncionario {
 model Cliente {
   id Int @id @default(autoincrement())
   funcionarios ClienteFuncionario[]
-  pessoa_fisica PessoaFisica[]
+  pessoa_fisica PessoaFisica?
   pessoa_juridica PessoaJuridica[]
   pagamento Pagamento[]
   empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
@@ -52,7 +52,7 @@ model PessoaFisica {
   endereco String
   contato String
   cliente Cliente @relation(fields: [idClient], references: [id])
-  idClient Int
+  idClient Int @unique
 
   @@map("pessoa_fisica")
 }
