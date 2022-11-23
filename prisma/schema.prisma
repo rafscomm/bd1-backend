@@ -40,6 +40,8 @@ model Cliente {
   pessoa_fisica PessoaFisica[]
   pessoa_juridica PessoaJuridica[]
   pagamento Pagamento[]
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
 
   @@map("cliente")
 }
@@ -73,6 +75,7 @@ model Empresa {
   razao_social String
   funcionarios Funcionario[]
   fornecedores Fornecedor[]
+  clientes Cliente[]
   caixas Caixa[]
   estoques Estoque[]
 
@@ -88,7 +91,8 @@ model Produto {
   imageURL String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  estoques ProdutosEmEstoque[]
+  estoque Estoque @relation(fields: [idEstoque], references: [id])
+  idEstoque Int
   vendas Venda[]
   @@map("produtos")
 }
@@ -118,21 +122,21 @@ model Fornecedor {
 model Estoque {
   id Int @id @default(autoincrement())
   nome String
-  produtos ProdutosEmEstoque[]
   empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  produtos Produto[]
   idEmpresa String
 }
 
-model ProdutosEmEstoque {
-  produto Produto @relation(fields: [idProduto], references: [id])
-  idProduto Int
-  estoque Estoque @relation(fields: [idEstoque], references: [id])
-  idEstoque Int
-  assignedAt DateTime @default(now())
-  assignedBy String
+// model ProdutosEmEstoque {
+//   produto Produto @relation(fields: [idProduto], references: [id])
+//   idProduto Int
+//   estoque Estoque @relation(fields: [idEstoque], references: [id])
+//   idEstoque Int
+//   assignedAt DateTime @default(now())
+//   assignedBy String
 
-  @@id([idProduto, idEstoque])
-}
+//   @@id([idProduto, idEstoque])
+// }
 
 model Venda {
   numero Int @id @default(autoincrement())

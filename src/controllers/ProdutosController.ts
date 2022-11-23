@@ -7,15 +7,16 @@ export const produtosController = async (request: Request, response: Response) =
 }
 
 export const criarProdutos = async (request: Request, response: Response) => {
-  const {nome, marca, modelo, price, imageURL} = request.body;
+  const {nome, marca, modelo, price, imageURL, idStoque} = request.body;
 
-  const produto = await prisma.produto.create({
+  await prisma.produto.create({
     data: {
-      nome:nome,
+      nome: nome,
       marca: marca,
       modelo: modelo,
       price: price,
       imageURL: imageURL,
+      idEstoque:  idStoque
     }
   });
   return response.status(201).send('Produto criado com sucesso');
