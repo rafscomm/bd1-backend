@@ -16,34 +16,23 @@ model Funcionario {
   endereco String
   salario Decimal
   senha String
-  clientes ClienteFuncionario[]
+  vendas Venda[]
+  pessoaFisica PessoafisicaFuncionario[]
   empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
   idEmpresa String
 
   @@map("funcionario")
 }
 
-model ClienteFuncionario {
+model PessoafisicaFuncionario {
   funcionario Funcionario @relation(fields: [idFuncionario], references: [cpf])
   idFuncionario String
-  cliente Cliente @relation(fields: [idCliente], references: [id])
-  idCliente Int
+  pessoaFisica PessoaFisica @relation(fields: [idPessoaFisica], references: [cpf])
+  idPessoaFisica String
   assignedAt DateTime @default(now())
   assignedBy String
 
-  @@id([idFuncionario, idCliente])
-}
-
-model Cliente {
-  id Int @id @default(autoincrement())
-  funcionarios ClienteFuncionario[]
-  pessoa_fisica PessoaFisica?
-  pessoa_juridica PessoaJuridica[]
-  pagamento Pagamento[]
-  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
-  idEmpresa String
-
-  @@map("cliente")
+  @@id([idFuncionario, idPessoaFisica])
 }
 
 model PessoaFisica {
@@ -51,21 +40,12 @@ model PessoaFisica {
   nome String
   endereco String
   contato String
-  cliente Cliente @relation(fields: [idClient], references: [id])
-  idClient Int @unique
+  pagamento Pagamento[]
+  funcionarios PessoafisicaFuncionario[]
+  empresa Empresa @relation(fields: [idEmpresa], references: [cnpj])
+  idEmpresa String
 
   @@map("pessoa_fisica")
-}
-
-model PessoaJuridica {
-  cnpj String @id
-  nome_fantasia String
-  endereco String
-  razao_social String
-  cliente Cliente @relation(fields: [idClient], references: [id])
-  idClient Int
-
-  @@map("pessoa_juridica")
 }
 
 model Empresa {
@@ -75,7 +55,7 @@ model Empresa {
   razao_social String
   funcionarios Funcionario[]
   fornecedores Fornecedor[]
-  clientes Cliente[]
+  pessoaFisica PessoaFisica[]
   caixas Caixa[]
   estoques Estoque[]
 
@@ -131,6 +111,8 @@ model Venda {
   numero Int @id @default(autoincrement())
   valor Decimal
   nome_cliente String
+  funcionario Funcionario @relation(fields: [idFuncionario], references: [cpf])
+  idFuncionario String
   produtos Produto @relation(fields: [idProduto], references: [id])
   idProduto Int
   status String
@@ -141,8 +123,8 @@ model Pagamento {
   id Int @id @default(autoincrement())
   valor_pagamento Decimal
   tipo String
-  cliente Cliente @relation(fields: [idCliente], references: [id])
-  idCliente Int
+  pessoaFisica PessoaFisica @relation(fields: [idPessoaFisica], references: [cpf])
+  idPessoaFisica String
   caixa Caixa @relation(fields: [idCaixa], references: [id])
   idCaixa Int
   venda Venda @relation(fields: [idVenda], references: [numero])

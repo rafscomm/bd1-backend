@@ -7,15 +7,15 @@ export const pagamentoController = async (request: Request, response: Response) 
 }
 
 export const criarPagamento = async (request: Request, response: Response) => {
-  const {valor_pagamento, idVenda, tipo, idCliente, idCaixa} = request.body;
+  const {valor_pagamento, idVenda, tipo, idPessoaFisica, idCaixa} = request.body;
 
   await prisma.pagamento.create({
     data: {
       valor_pagamento: valor_pagamento,
-      idVenda: idVenda,
+      idVenda: Number(idVenda),
       tipo: tipo,
-      idCliente: idCliente,
-      idCaixa: idCaixa
+      idPessoaFisica: idPessoaFisica,
+      idCaixa: Number(idCaixa),
     }
   });
   return response.status(201).send('Sucesso');
