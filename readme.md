@@ -46,3 +46,12 @@ Ao logar no sistema, temos diversos modulos, como Produtos, Venda, Clientes, Cai
   
   No módulo de caixa, temos justamente registrado as vendas com o status de paga, para um controle interno da empresa.
   
+  <h1> Modelo Conceitual </h1> 
+  
+  ![Modelo_conceitual_100%](https://user-images.githubusercontent.com/73145524/203665676-3f307355-0ba7-439b-8a19-7f524c1aae85.png)
+  
+  <h1> Modelo Lógico </h1> 
+  
+
+  ![Modelo_logico](https://user-images.githubusercontent.com/73145524/203665740-111604dc-fdf7-4092-9f35-4f0152ebd67a.png)
+
