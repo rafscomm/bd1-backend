@@ -127,23 +127,14 @@ model Estoque {
   idEmpresa String
 }
 
-// model ProdutosEmEstoque {
-//   produto Produto @relation(fields: [idProduto], references: [id])
-//   idProduto Int
-//   estoque Estoque @relation(fields: [idEstoque], references: [id])
-//   idEstoque Int
-//   assignedAt DateTime @default(now())
-//   assignedBy String
-
-//   @@id([idProduto, idEstoque])
-// }
-
 model Venda {
   numero Int @id @default(autoincrement())
   valor Decimal
   nome_cliente String
   produtos Produto @relation(fields: [idProduto], references: [id])
   idProduto Int
+  status String
+  pagamentos Pagamento[]
 }
 
 model Pagamento {
@@ -154,6 +145,8 @@ model Pagamento {
   idCliente Int
   caixa Caixa @relation(fields: [idCaixa], references: [id])
   idCaixa Int
+  venda Venda @relation(fields: [idVenda], references: [numero])
+  idVenda Int
 
   @@map("pagamento")
 }

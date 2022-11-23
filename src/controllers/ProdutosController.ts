@@ -19,5 +19,5 @@ export const criarProdutos = async (request: Request, response: Response) => {
       idEstoque:  idStoque
     }
   });
-  return response.status(201).send('Produto criado com sucesso');
+  return response.status(201).send('Sucesso');
 }
